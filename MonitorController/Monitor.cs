@@ -13,14 +13,14 @@ namespace MonitorInputController
             szPhysicalMonitorDescription;
     }
 
-    enum MonitorOptions : uint
+    internal enum MonitorOptions : uint
     {
         MONITOR_DEFAULTTONULL = 0x00000000,
         MONITOR_DEFAULTTOPRIMARY = 0x00000001,
         MONITOR_DEFAULTTONEAREST = 0x00000002
     }
 
-    enum MC_VCP_CODE_TYPE : uint
+    internal enum MC_VCP_CODE_TYPE : uint
     {
         MC_MOMENTARY = 0x00000000,
         MC_SET_PARAMETER = 0x00000001
@@ -134,21 +134,21 @@ namespace MonitorInputController
         public static extern bool SetMonitorBrightness(IntPtr handle, uint newBrightness);
 
         [DllImport("user32.dll", SetLastError = true)]
-        static extern IntPtr MonitorFromPoint(POINT pt, MonitorOptions dwFlags);
+        private static extern IntPtr MonitorFromPoint(POINT pt, MonitorOptions dwFlags);
 
         [DllImport("dxva2.dll", SetLastError = true)]
-        static extern IntPtr GetPhysicalMonitorsFromHMONITOR(
+        private static extern IntPtr GetPhysicalMonitorsFromHMONITOR(
             IntPtr monitorHandle,
             uint monitorArraySize,
             int physicalMonitor);
 
         [DllImport("dxva2.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool SetVCPFeature(IntPtr monitorHandle, uint vcpCode, uint source);
+        private static extern bool SetVCPFeature(IntPtr monitorHandle, uint vcpCode, uint source);
 
         [DllImport("dxva2.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool GetVCPFeatureAndVCPFeatureReply(
+        private static extern bool GetVCPFeatureAndVCPFeatureReply(
             IntPtr monitorHandle,
             uint vcpCode,
             [Out] IntPtr source,
@@ -206,6 +206,21 @@ namespace MonitorInputController
                     DestroyPhysicalMonitors(_physicalMonitorsCount, ref _physicalMonitorArray);
                 }
             }
+        }
+    }
+
+    public class MonitorControlException: Exception
+    {
+        public MonitorControlException(string message)
+            :base(message)
+        {
+
+        }
+
+        public MonitorControlException(string message, Exception exc)
+            : base(message, exc)
+        {
+
         }
     }
 }
