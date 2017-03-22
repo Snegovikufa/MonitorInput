@@ -1,10 +1,10 @@
-#MonitorController
+# MonitorController
 
 This app helps you to share one monitor between two PCs. 
 
 ![](https://github.com/Snegovikufa/MonitorInput/raw/master/Description.png)
 
-#Usage
+## Usage
 
     MonitorInputController.exe [inputID]
 
